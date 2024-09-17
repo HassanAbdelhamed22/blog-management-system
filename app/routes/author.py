@@ -63,5 +63,5 @@ def delete_post(blog_service: BlogService, post_id):
     if not current_user.has_role('author'):
       return redirect(url_for('auth.login_form'))
     
-    blog_service.delete_post(post_id, current_user.id)
+    blog_service.delete_post(post_id, author_id=current_user.id)
     return redirect(url_for('author.view_posts')) 

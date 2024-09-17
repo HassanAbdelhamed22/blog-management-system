@@ -50,9 +50,9 @@ class BlogService:
             return post, None
         return None
 
-    def delete_post(self, post_id, author_id):
+    def delete_post(self, post_id, author_id=None, is_admin=False):
         post = self.get_post(post_id)
-        if post and post.author_id == author_id:
+        if post and (is_admin or post.author_id == author_id):
             self.db.session.delete(post)
             self.db.session.commit()
             return True

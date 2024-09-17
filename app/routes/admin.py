@@ -56,7 +56,7 @@ def delete_post(post_id, blog_service: BlogService):
     if not current_user.has_role('admin'):
         return redirect(url_for('auth.login_form'))
     
-    blog_service.delete_post(post_id)
+    blog_service.delete_post(post_id, is_admin=True)
     return redirect(url_for('admin.manage_posts'))
 
 @admin.route('/users')
