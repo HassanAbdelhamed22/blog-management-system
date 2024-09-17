@@ -19,9 +19,13 @@ instance/
 *.sqlite
 *.db
 
-# VSCode IDE files
+# IDE files
+.idea/
 .vscode/
 
-# Other files to ignore
-.DS_Store
+# Log files
 *.log
+
+# System files
+.DS_Store
+Thumbs.db
