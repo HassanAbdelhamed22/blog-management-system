@@ -1,0 +1,42 @@
+{% extends "userLayout.html" %}
+
+{% block content %}
+<div class="py-6 px-56 min-h-screen bg-gray-100">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">All Blogs</h1>
+
+  {% if request.args.get('error') %}
+    <div class="mb-4 p-4 bg-red-100 text-red-700 border border-red-300 rounded">
+      {{ request.args.get('error') }}
+    </div>
+  {% endif %}
+
+  <ul class="space-y-4">
+    {% for blog in blogs %}
+    <li class="bg-white shadow-md rounded-lg p-6">
+      <h5 class="text-2xl font-semibold text-gray-800">{{ blog.title }}</h5>
+      <p class="text-gray-700 mt-2">{{ blog.content }}</p>
+      
+      <div class="flex items-center justify-between mt-4">
+        <div class="text-sm text-gray-600">
+          <span class="font-medium">Likes:</span> {{ blog.likes | length }} |
+          <span class="font-medium">Dislikes:</span> {{ blog.dislikes | length }}
+        </div>
+        
+        <div class="flex items-center justify-center gap-4">
+          <form action="/user/blogs/like/{{ blog.id }}" method="POST" class="d-inline">
+            <button type="submit" class="bg-transparent border-none p-0" onclick="toggleLike(this)">
+              <i class="fa fa-thumbs-up text-gray-500 hover:text-blue-500 duration-300"></i>
+            </button>
+          </form>
+          <form action="/user/blogs/dislike/{{ blog.id }}" method="POST" class="d-inline">
+            <button type="submit" class="bg-transparent border-none p-0" onclick="toggleDislike(this)">
+              <i class="fa fa-thumbs-down text-gray-500 hover:text-red-500 duration-300"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div> duration-300
+{% endblock %}

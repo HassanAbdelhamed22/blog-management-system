@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Example Flask Application | Home Page</h1>
+<p>
+    {% if name %}
+        Welcome {{ name }} to the example
+    {% else %}
+        Welcome to the example
+    {% endif  %}
+</p>
+{% endblock %}
