@@ -16,8 +16,8 @@ This project is a Flask-based web application that supports user authentication,
 1. **Clone the Repository**
 
    Clone the repository from GitHub:
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
+   git clone https://github.com/HassanAbdelhamed22/blog-management-system
+   cd blog-management-system
 
 2. **Create a Virtual Environment**
 
@@ -40,8 +40,8 @@ This project is a Flask-based web application that supports user authentication,
     FLASK_APP=app
     FLASK_ENV=development
     SECRET_KEY=your_secret_key
-    SQLALCHEMY_DATABASE_URI=sqlite:///your_database.db
-    MONGO_URI=mongodb://localhost:27017/your_database
+    SQLALCHEMY_DATABASE_URI=sqlite:///blog.db
+    MONGO_URI=mongodb://localhost:27017/blog
 
 6. **Run the Application**
 
@@ -52,30 +52,30 @@ This project supports both SQL and MongoDB as database backends. To switch betwe
 
 1. **Configuration**
 
-  In the .env file, set the DATABASE_BACKEND variable to specify which database to use:
-  for SQL: DATABASE_BACKEND=sql
-  for MongoDB: DATABASE_BACKEND=mongo
+    In the .env file, set the DATABASE_BACKEND variable to specify which database to use:
+      for SQL: DATABASE_BACKEND=sql
+      for MongoDB: DATABASE_BACKEND=mongo
 
 2. **Modify Model Layer**
 
-  Based on the value of DATABASE_BACKEND, update the model layer in your application. The core logic should be in separate classes or modules to support both types of databases.
+    Based on the value of DATABASE_BACKEND, update the model layer in your application. The core logic should be in separate classes or modules to support both types of databases.
+  
+    SQL Model Layer: Implement models using SQLAlchemy.
+    MongoDB Model Layer: Implement models using PyMongo.
 
-  SQL Model Layer: Implement models using SQLAlchemy.
-  MongoDB Model Layer: Implement models using PyMongo.
+3. **Service Layer**  
 
-3. **Service Layer**
+    Modify your service classes to accommodate both SQL and MongoDB. For example:
 
-  Modify your service classes to accommodate both SQL and MongoDB. For example:
+    from flask import current_app
 
-  from flask import current_app
-
-  class BlogService:
-      def __init__(self):
-          self.backend = current_app.config  ['DATABASE_BACKEND']
-          if self.backend == 'sql':
-              from app.services.sql_blog_service import   SQLBlogService
-              self.blog_service = SQLBlogService()
-          elif self.backend == 'mongo':
-              from app.services.mongo_blog_service import   MongoBlogService
-              self.blog_service = MongoBlogService()
+    class BlogService:
+        def __init__(self):
+            self.backend = current_app.config    ['DATABASE_BACKEND']
+            if self.backend == 'sql':
+                from app.services.sql_blog_service import     SQLBlogService
+                self.blog_service = SQLBlogService()
+            elif self.backend == 'mongo':
+                from app.services.mongo_blog_service import     MongoBlogService
+                self.blog_service = MongoBlogService()
 
