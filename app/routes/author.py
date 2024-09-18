@@ -2,8 +2,8 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from flask_login import current_user, login_required
 from flask_injector import inject
 from app.forms.postForm import PostForm
-from app.services.sql.user import UserService
-from app.services.sql.blog import BlogService
+from app.services.user import UserService
+from app.services.blog import BlogService
 
 author = Blueprint('author', __name__, url_prefix='/author')
 
@@ -12,7 +12,7 @@ author = Blueprint('author', __name__, url_prefix='/author')
 @inject
 def view_posts(blog_service: BlogService):
   if not current_user.has_role('author'):
-      return redirect(url_for('auth.login_form'))
+    return redirect(url_for('auth.login_form'))
     
   posts = blog_service.get_author_posts(current_user.id)
   return render_template('author/posts.html', posts=posts)  

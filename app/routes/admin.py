@@ -3,8 +3,8 @@ from flask_login import current_user, login_required
 from flask_injector import inject
 from app.forms.RoleForm import RoleForm
 from app.forms.postForm import PostForm
-from app.services.sql.user import UserService
-from app.services.sql.blog import BlogService
+from app.services.user import UserService
+from app.services.blog import BlogService
 from flask_wtf import FlaskForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')

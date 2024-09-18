@@ -1,20 +1,14 @@
-from app import create_app, db, mongo
+from app import create_app, db
 from flask_injector import FlaskInjector, singleton
 
 # Configuration of Dependency Injection
-def configure(binder):
-    if app.config['DATABASE_BACKEND'] == 'sql':
-        from app.services.sql.user import UserService
-        from app.services.sql.blog import BlogService
-        from app.services.sql.role import RoleService
-        binder.bind(UserService, to=UserService(db), scope=singleton)
-        binder.bind(BlogService, to=BlogService(db), scope=singleton)
-        binder.bind(RoleService, to=RoleService(db), scope=singleton)
-    elif app.config['DATABASE_BACKEND'] == 'mongo':
-        from app.services.mongo.user import UserService
-        from app.services.mongo.blog import BlogService
-        binder.bind(UserService, to=UserService(mongo), scope=singleton)
-        binder.bind(BlogService, to=BlogService(mongo), scope=singleton)
+def configure(binder):    
+    from app.services.user import UserService
+    from app.services.blog import BlogService
+    from app.services.role import RoleService
+    binder.bind(UserService, to=UserService(db), scope=singleton)
+    binder.bind(BlogService, to=BlogService(db), scope=singleton)
+    binder.bind(RoleService, to=RoleService(db), scope=singleton)
 
 app = create_app()
 
@@ -55,8 +49,7 @@ app = create_app()
 
 if __name__ == '__main__':
     with app.app_context():
-        if app.config['DATABASE_BACKEND'] == 'sql':
-            db.create_all()
+        db.create_all()
 
     # Set up FlaskInjector for Dependency Injection
     FlaskInjector(app=app, modules=[configure])
