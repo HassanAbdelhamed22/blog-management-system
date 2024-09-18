@@ -1,8 +1,10 @@
 from flask import Blueprint, redirect, url_for, render_template, request
 from flask_login import current_user, login_required
 from flask_injector import inject
+from app.forms.postForm import PostForm
 from app.services.user import UserService
 from app.services.blog import BlogService
+from flask_wtf import FlaskForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -32,22 +34,26 @@ def manage_posts(blog_service: BlogService):
 @login_required
 @inject
 def edit_post(post_id, blog_service: BlogService):
+    form = PostForm()
+    
     if not current_user.has_role('admin'):
         return redirect(url_for('auth.login_form'))
 
     post = blog_service.get_post(post_id)
 
     if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
+        if form.validate_on_submit():
+            title = form.title.data
+            content = form.content.data
         post, error_message = blog_service.update_post(post_id, title=title, content=content, is_admin=True)
 
         if post:
             return redirect(url_for('admin.manage_posts'))
         else:
-            return render_template('/admin/edit_blog.html', post=post, error_message=error_message)
+            return render_template('/admin/edit_blog.html', post=post, error_message=error_message, form=form)
 
-    return render_template('/admin/edit_blog.html', post=post)
+    return render_template('/admin/edit_blog.html', post=post, form=form)
+
 
 @admin.route('/posts/delete/<int:post_id>')
 @login_required

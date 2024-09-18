@@ -24,11 +24,13 @@
         
         <div class="flex items-center justify-center gap-4">
           <form action="/user/blogs/like/{{ blog.id }}" method="POST" class="d-inline">
+            {{ like_form.hidden_tag() }}  
             <button type="submit" class="bg-transparent border-none p-0" onclick="toggleLike(this)">
               <i class="fa fa-thumbs-up text-gray-500 hover:text-blue-500 duration-300"></i>
             </button>
           </form>
           <form action="/user/blogs/dislike/{{ blog.id }}" method="POST" class="d-inline">
+            {{ dislike_form.hidden_tag() }}
             <button type="submit" class="bg-transparent border-none p-0" onclick="toggleDislike(this)">
               <i class="fa fa-thumbs-down text-gray-500 hover:text-red-500 duration-300"></i>
             </button>
@@ -38,5 +40,5 @@
     </li>
     {% endfor %}
   </ul>
-</div> duration-300
+</div>
 {% endblock %}

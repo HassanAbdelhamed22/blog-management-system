@@ -12,6 +12,7 @@
             <p class="text-gray-600">Role: {{ user.role.name }}</p>
           </div>
           <form action="/admin/users/promote/{{ user.id }}" method="post" class="flex items-center gap-2">
+            {{ form.hidden_tag() }}  <!-- CSRF Token -->
             <select name="role" class="form-select form-select-sm border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm">
               <option value="admin" {% if user.role.name == 'admin' %}selected{% endif %}>Admin</option>
               <option value="author" {% if user.role.name == 'author' %}selected{% endif %}>Author</option>

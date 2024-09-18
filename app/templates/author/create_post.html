@@ -5,6 +5,7 @@
   <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">Create New Post</h1>
   
   <form method="POST" action="/author/posts/create" class="space-y-6 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    {{ form.hidden_tag() }}  <!-- CSRF Token -->
     <div class="form-group">
       <label for="title" class="block text-gray-700 font-medium">Title</label>
       <input type="text" id="title" name="title" class="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter the title" required>

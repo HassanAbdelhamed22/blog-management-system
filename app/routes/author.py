@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, url_for, render_template, request
 from flask_login import current_user, login_required
 from flask_injector import inject
+from app.forms.postForm import PostForm
 from app.services.user import UserService
 from app.services.blog import BlogService
 
@@ -20,24 +21,29 @@ def view_posts(blog_service: BlogService):
 @author.route('/posts/create', methods=['GET', 'POST'])
 @login_required
 def create_post(blog_service: BlogService):
+    form = PostForm()
+
     if not current_user.has_role('author'):
         return redirect(url_for('auth.login_form'))
     
     if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
+        if form.validate_on_submit():
+            title = form.title.data
+            content = form.content.data
         post, error_message = blog_service.create_post(title, content, current_user.id)
         if post:
             return redirect(url_for('author.view_posts'))
         else:
-            return render_template('author/create_post.html', error_message=error_message, title=title, content=content)
+            return render_template('author/create_post.html', error_message=error_message, title=title, content=content, form=form)
     
-    return render_template('author/create_post.html')
+    return render_template('author/create_post.html', form=form)
   
 @inject
 @author.route('/posts/edit/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id, blog_service: BlogService):
+    form = PostForm()
+
     if not current_user.has_role('author'):
         return redirect(url_for('auth.login_form'))
     
@@ -46,15 +52,16 @@ def edit_post(post_id, blog_service: BlogService):
         return redirect(url_for('author.view_posts'))
     
     if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
+        if form.validate_on_submit():
+            title = form.title.data
+            content = form.content.data
         post, error_message = blog_service.update_post(post_id, current_user.id, title, content)
         if post:
             return redirect(url_for('author.view_posts'))
         else:
-            return render_template('author/edit_post.html', post=post, error_message=error_message)
+            return render_template('author/edit_post.html', post=post, error_message=error_message, form=form)
     
-    return render_template('author/edit_post.html', post=post)
+    return render_template('author/edit_post.html', post=post, form=form)
 
 @inject
 @author.route('/posts/delete/<int:post_id>', methods=['POST'])
