@@ -60,24 +60,31 @@ This project supports both SQL and MongoDB as database backends. To switch betwe
 
 2. **Modify Model Layer**
 
-  - **Based on the value of DATABASE_BACKEND, update the model layer in your application. The core logic should be in separate classes or modules to support both types of databases.**
+  - **Based on the value of DATABASE_BACKEND, update the model layer in application. The core logic should be in separate classes or modules to support both types of databases.**
   
   - **SQL Model Layer: Implement models using SQLAlchemy.**
   - **MongoDB Model Layer: Implement models using PyMongo.**
 
 3. **Service Layer**  
 
-  - **Modify your service classes to accommodate both SQL and MongoDB. For example:**
+  - **Modify service classes to accommodate both SQL and MongoDB. For example:**
 
     from flask import current_app
 
     class BlogService:
+
         def __init__(self):
+
             self.backend = current_app.config    ['DATABASE_BACKEND']
+
             if self.backend == 'sql':
-                from app.services.sql_blog_service import     SQLBlogService
+
+                from app.services.sql_blog_service import SQLBlogService
+
                 self.blog_service = SQLBlogService()
             elif self.backend == 'mongo':
+
                 from app.services.mongo_blog_service import     MongoBlogService
+
                 self.blog_service = MongoBlogService()
 
