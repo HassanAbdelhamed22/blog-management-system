@@ -7,7 +7,7 @@ from app.forms.dislikeForm import DislikeForm
 
 user = Blueprint('user', __name__, url_prefix='/user')
 
-@user.route('/blogs')
+@user.route('/posts')
 @login_required
 @inject
 def view_blogs(blog_service: BlogService):
@@ -19,9 +19,11 @@ def view_blogs(blog_service: BlogService):
     like_form = LikeForm()
     dislike_form = DislikeForm()
     
-    return render_template('user/view_blogs.html', blogs=blogs, like_form=like_form, dislike_form=dislike_form)
+    error_message = request.args.get('error')
+    
+    return render_template('user/view_blogs.html', blogs=blogs, like_form=like_form, dislike_form=dislike_form, error_message=error_message)
 
-@user.route('/blogs/like/<int:blog_id>', methods=['POST'])
+@user.route('/posts/like/<int:blog_id>', methods=['POST'])
 @login_required
 @inject
 def like_blog(blog_id, blog_service: BlogService):
@@ -36,7 +38,7 @@ def like_blog(blog_id, blog_service: BlogService):
             return redirect(url_for('user.view_blogs', error=message))
     return redirect(url_for('user.view_blogs'))
 
-@user.route('/blogs/dislike/<int:blog_id>', methods=['POST'])
+@user.route('/posts/dislike/<int:blog_id>', methods=['POST'])
 @login_required
 @inject
 def dislike_blog(blog_id, blog_service: BlogService):

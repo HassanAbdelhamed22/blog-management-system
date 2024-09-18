@@ -4,9 +4,9 @@
 <div class="py-6 px-56 min-h-screen bg-gray-100">
   <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">All Blogs</h1>
 
-  {% if request.args.get('error') %}
+  {% if error_message %}
     <div class="mb-4 p-4 bg-red-100 text-red-700 border border-red-300 rounded">
-      {{ request.args.get('error') }}
+      {{ error_message }}
     </div>
   {% endif %}
 
@@ -32,13 +32,13 @@
         </div>
         
         <div class="flex items-center justify-center gap-4">
-          <form action="/user/blogs/like/{{ blog.id }}" method="POST" class="d-inline">
+          <form action="/user/posts/like/{{ blog.id }}" method="POST" class="d-inline">
             {{ like_form.hidden_tag() }}  
             <button type="submit" class="bg-transparent border-none p-0" onclick="toggleLike(this)">
               <i class="fa fa-thumbs-up text-gray-500 hover:text-blue-500 duration-300"></i>
             </button>
           </form>
-          <form action="/user/blogs/dislike/{{ blog.id }}" method="POST" class="d-inline">
+          <form action="/user/posts/dislike/{{ blog.id }}" method="POST" class="d-inline">
             {{ dislike_form.hidden_tag() }}
             <button type="submit" class="bg-transparent border-none p-0" onclick="toggleDislike(this)">
               <i class="fa fa-thumbs-down text-gray-500 hover:text-red-500 duration-300"></i>
