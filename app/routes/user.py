@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from flask_injector import inject
-from app.services.blog import BlogService
+from app.services.sql.blog import BlogService
 from app.forms.likeForm import LikeForm  
 from app.forms.dislikeForm import DislikeForm  
 

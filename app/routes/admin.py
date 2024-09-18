@@ -1,9 +1,10 @@
 from flask import Blueprint, redirect, url_for, render_template, request
 from flask_login import current_user, login_required
 from flask_injector import inject
+from app.forms.RoleForm import RoleForm
 from app.forms.postForm import PostForm
-from app.services.user import UserService
-from app.services.blog import BlogService
+from app.services.sql.user import UserService
+from app.services.sql.blog import BlogService
 from flask_wtf import FlaskForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -73,7 +74,8 @@ def manage_users(user_service: UserService):
         return redirect(url_for('auth.login_form'))
     
     users = user_service.get_all_users()
-    return render_template('/admin/manage_users.html', users=users)
+    form = RoleForm()
+    return render_template('/admin/manage_users.html', users=users, form=form)
 
 @admin.route('/users/promote/<int:user_id>', methods=['POST'])
 @login_required
@@ -82,9 +84,11 @@ def promote_user(user_id, user_service: UserService):
     if not current_user.has_role('admin'):
         return redirect(url_for('auth.login_form'))
 
-    new_role = request.form.get('role')
-    if new_role:
-        user = user_service.promote_user(user_id, new_role)
-        if user:
-            return redirect(url_for('admin.manage_users'))
+    form = RoleForm()
+    if form.validate_on_submit():
+        new_role = form.role.data
+        if new_role:
+            user = user_service.promote_user(user_id, new_role)
+            if user:
+                return redirect(url_for('admin.manage_users'))
     return redirect(url_for('admin.manage_users'))

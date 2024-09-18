@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_injector import inject
 from flask_login import login_user
-from app.models.user import User
-from app.models.role import Role
+from app.models.sql.user import User
+from app.models.sql.role import Role
 from werkzeug.security import check_password_hash
 
 class UserService:

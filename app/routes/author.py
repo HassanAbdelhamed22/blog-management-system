@@ -2,8 +2,8 @@ from flask import Blueprint, redirect, url_for, render_template, request
 from flask_login import current_user, login_required
 from flask_injector import inject
 from app.forms.postForm import PostForm
-from app.services.user import UserService
-from app.services.blog import BlogService
+from app.services.sql.user import UserService
+from app.services.sql.blog import BlogService
 
 author = Blueprint('author', __name__, url_prefix='/author')
 

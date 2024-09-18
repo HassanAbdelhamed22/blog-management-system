@@ -3,7 +3,7 @@ from flask_injector import inject
 from flask_login import login_user, logout_user, current_user, login_required
 from app.forms.loginForm import LoginForm
 from app.forms.signupForm import SignupForm
-from app.services.user import UserService
+from app.services.sql.user import UserService
 
 auth = Blueprint("auth", __name__)
 

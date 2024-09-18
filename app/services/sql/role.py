@@ -1,5 +1,5 @@
 from app import db
-from app.models.role import Role
+from app.models.sql.role import Role
 from flask_injector import inject
 
 class RoleService:

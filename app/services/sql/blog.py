@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_injector import inject
-from app.models.blog import Blog
-from app.models.like import Like
-from app.models.dislike import Dislike
+from app.models.sql.blog import Blog
+from app.models.sql.like import Like
+from app.models.sql.dislike import Dislike
 from sqlalchemy.orm import joinedload
 
 class BlogService:
