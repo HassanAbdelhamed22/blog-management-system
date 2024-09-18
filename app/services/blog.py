@@ -35,7 +35,6 @@ class BlogService:
     def update_post(self, post_id, author_id=None, title=None, content=None, is_admin=False):
         post = self.get_post(post_id)
 
-        # If it's an author, check that the author is the owner of the post
         if post and (is_admin or post.author_id == author_id): 
             if title and len(title) < 5:
                 return None, "Title must be at least 5 characters long."
@@ -53,6 +52,9 @@ class BlogService:
     def delete_post(self, post_id, author_id=None, is_admin=False):
         post = self.get_post(post_id)
         if post and (is_admin or post.author_id == author_id):
+            Like.query.filter_by(blog_id=post_id).delete()
+            Dislike.query.filter_by(blog_id=post_id).delete()
+        
             self.db.session.delete(post)
             self.db.session.commit()
             return True

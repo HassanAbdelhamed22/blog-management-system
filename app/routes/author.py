@@ -64,7 +64,7 @@ def edit_post(post_id, blog_service: BlogService):
     return render_template('author/edit_post.html', post=post, form=form)
 
 @inject
-@author.route('/posts/delete/<int:post_id>', methods=['POST'])
+@author.route('/posts/delete/<int:post_id>')
 @login_required
 def delete_post(blog_service: BlogService, post_id):
     if not current_user.has_role('author'):
